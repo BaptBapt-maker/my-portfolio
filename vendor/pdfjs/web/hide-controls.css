@@ -1,0 +1,3 @@
+#download, #secondaryDownload,
+#print, #secondaryPrint,
+#openFile, #secondaryOpenFile { display:none !important; }
