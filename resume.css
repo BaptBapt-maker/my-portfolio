@@ -499,6 +499,13 @@ body {
 
 }
 
+.carre .epitech {
+  width: 100px;
+  height: 100px;
+  justify-self: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 .carre {
   justify-content: right;
   display: grid;
@@ -511,6 +518,7 @@ body {
   max-width: 200px;
   max-height: 250px;
   margin-top: 10px;
+  margin-bottom: 10px;
   margin-right: 20px;
   text-align:center;
   
@@ -958,6 +966,10 @@ details[open] summary {
   --glass-bg1: rgba(255,255,255,.18);
   --glass-bg2: rgba(255,255,255,.08);
   --shadow: 0 12px 28px rgba(6, 28, 36, .22);
+  filter: blur(10px);
+  transition: filter 800ms ease;
+  animation: clearMap 1s ease forwards;
+  animation-delay: 13s;
 }
 
 .summary :where(h1,h2){ margin:0; text-wrap: balance; }
