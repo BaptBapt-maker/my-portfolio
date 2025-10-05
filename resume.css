@@ -944,12 +944,13 @@ details[open] summary {
   width: clamp(260px, 28vw, 420px);
   max-height: auto;
   width: 450px;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   background:
     radial-gradient(800px 400px at 0% 0%, rgba(255, 255, 255, .06), transparent 70%),
     radial-gradient(600px 300px at 100% 0%, rgba(255, 255, 255, .04), transparent 70%),
     radial-gradient(900px 500px at 50% 120%, rgba(0, 0, 0, .20), transparent 70%),
-    linear-gradient(135deg, #56b3f1, #034ab4);
+    linear-gradient(135deg, #56b3f1, #034ab4, opacity 70%);
   color: #070707;
   border-radius: 16px;
   padding: 16px 18px;
@@ -970,10 +971,48 @@ details[open] summary {
   transition: filter 800ms ease;
   animation: clearMap 1s ease forwards;
   animation-delay: 13s;
+  isolation: isolate; 
 }
 
 .summary :where(h1,h2){ margin:0; text-wrap: balance; }
 
+.summary::after{
+  content: "";
+  position: absolute;
+  top: -25%;
+  bottom: -100%;
+  left: -60%;
+  right: -60%;
+    background: linear-gradient(105deg,
+    rgba(255,255,255,0) 36%,
+    rgba(255,255,255,.10) 43%,
+    rgba(255,255,255,.58) 50%,
+    rgba(255,255,255,.10) 57%,
+    rgba(255,255,255,0) 64%
+  );
+
+  transform: translateX(-55%) skewX(-18deg);
+   
+  filter:
+    drop-shadow(0 0 22px rgba(255,255,255,.45))
+    blur(1.2px);
+  mix-blend-mode: screen;      
+  pointer-events: none;        
+will-change: transform, opacity;
+  animation: summary-shine 6.5s ease-in-out infinite;
+  
+  z-index: 2; 
+}
+
+
+
+@keyframes summary-shine{
+  0%   { transform: translateX(-120%) skewX(-20deg); opacity: .0; }
+  10%  { opacity: .85; }
+  55%  { transform: translateX(120%)  skewX(-20deg); opacity: .85; }
+  70%  { opacity: .0; }
+  100% { transform: translateX(120%)  skewX(-20deg); opacity: .0; }
+}
 .summary h1{
   font-size: clamp(34px, 5.2vw, 50px);
   line-height: 1.04;
@@ -1004,6 +1043,7 @@ details[open] summary {
   border: 1px solid var(--glass-bd);
   box-shadow: var(--shadow);
   margin: .8rem 0 1rem;
+  
 }
 
 
@@ -1073,7 +1113,7 @@ details[open] summary {
   object-fit: cover;
   border-right: white;
   border: 2px solid #fff;
-  box-shadow: 0 8px 24px #013713;
+  box-shadow: 0 8px 24px #276d9c;
 }
 
 .resume {
@@ -1086,8 +1126,9 @@ details[open] summary {
 .texte {
   margin-top: top;
   text-align: left;
-  color: #f6f7f8;
+  
   text-shadow: #000000;
+  color: rgba(13,34,48,.92);
 }
 
 
@@ -1192,6 +1233,7 @@ details[open] summary {
   transition: transform 0.3s ease;
   max-width: 60ch;
   
+  
 }
 .soft-proof .item:hover {
 transform: scale(1.05);
@@ -1207,6 +1249,7 @@ transform: scale(1.05);
   border: 1px solid var(--pill-bd);
   color: var(--text);
   position: relative;
+  background: rgba(0, 0, 0, 0.199);
 }
 
 .soft-proof .label {
@@ -1265,7 +1308,7 @@ transform: scale(1.05);
   max-width: 60ch;
 
   
-  background: rgba(10, 10, 10, 0.08);
+  background: rgba(0, 0, 0, 0.199);
   border: 1px solid rgba(255,255,255,.22);
   border-radius: 12px;
   padding: 12px 16px;
