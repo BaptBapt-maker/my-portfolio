@@ -384,7 +384,7 @@ position: relative;
 }
 
 .pin1 {
-  fill: #5d0404;
+  fill: #e67878;
   stroke: white;
   stroke-width: 0.5;
   cursor: pointer;
@@ -398,7 +398,7 @@ position: relative;
 
 
 .pin2 {
-  fill: #070452;
+  fill: #0027d3;
   stroke: white;
   stroke-width: 0.5;
   cursor: pointer;
@@ -940,7 +940,7 @@ details[open] summary {
     radial-gradient(800px 400px at 0% 0%, rgba(255, 255, 255, .06), transparent 70%),
     radial-gradient(600px 300px at 100% 0%, rgba(255, 255, 255, .04), transparent 70%),
     radial-gradient(900px 500px at 50% 120%, rgba(0, 0, 0, .20), transparent 70%),
-    linear-gradient(135deg, #56b3f1, #034ab4, opacity 70%);
+    linear-gradient(23deg, #EAF4FF, #CDE6FF);
   color: #070707;
   border-radius: 16px;
   padding: 16px 18px;
@@ -1075,17 +1075,52 @@ details[open] summary {
 
 }
 
-@media (max-width: 1027px) {
-  .summary {
-    left: 12px;
-    right: 12px;
-    width: auto;
-    bottom: max(12px);
-    top: auto;
-    max-height: min(42svh, 420px);
-    border-radius: 14px;
+
+.summary__handle{ display: none; }   /* pas de languette sur desktop */
+.summary__content{ padding: 12px 14px; overscroll-behavior: contain; }
+
+/* ===== Mobile / tablette : bottom-sheet avec languette + swipe ===== */
+@media (max-width:1027px){
+   .summary{
+    left:12px; right:12px; bottom:12px; width:auto;
+    border-radius:14px;
+    /* le sheet NE scrolle pas : */
+    overflow-y: auto;                 /* <-- garde celui-ci */
+    /* supprime/écrase overflow-y:auto ici */
+
+    transform: translateY(calc(100% - 56px));
+    transition: transform .32s cubic-bezier(.22,.61,.36,1);
+    display: flex; flex-direction: column;  /* header + contenu */
   }
+
+  .summary.open{
+    top:12px; bottom:12px; height:auto;     /* ouvert = colle en haut */
+    transform: translateY(0);
+  }
+
+  .summary__handle{
+    height:35px; flex:0 0 56px;
+    display:flex; align-items:center; justify-content:center; gap:10px;
+     top:0; z-index:1;
+    background: transparent; border:0; cursor:pointer;
+    touch-action: none;       
+               
+  }
+
+  .summary__content{
+    flex: 1 1 auto;
+    min-height: 0;                                             
+    touch-action: pan-y;                  
+    padding: 12px 14px;
+  }
+.summary__label{
+  width:44px; height:14px;
+  background:
+    linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)) center 3px/44px 4px no-repeat,
+    linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)) center 11px/44px 4px no-repeat;
 }
+}
+
 
 .photo {
   width: 100px;
@@ -1414,7 +1449,7 @@ max-height: 35px;
 
 .stack{
   position: fixed;
-  right: 550px !important;          
+  right: 520px !important;          
   bottom: 20px;
   top: auto;
   width: 170px;
@@ -1508,10 +1543,58 @@ max-height: 35px;
 }
 
 @media (max-width: 900px){
-  .stack{ display: none; }
+.stack{
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    bottom: calc(12px + 56px + 8px);  /* au-dessus de la languette du sheet */
+    top: auto;
+    width: 800px;
+    height: 96px;
+    z-index: 1;                      /* au-dessus du summary */
+    filter: none;
+  }
+
+  .stack .stack-viewport{
+    width: 100%;
+    height: 100%;
+    /* fondu gauche/droite (et plus haut/bas) */
+    -webkit-mask: linear-gradient(90deg, transparent 0 8%, #000 12% 88%, transparent 92% 100%);
+            mask: linear-gradient(90deg, transparent 0 8%, #000 12% 88%, transparent 92% 100%);
+  }
+
+  /* >> bande horizontale << */
+  .stack .rail{
+    position: fixed;
+    inset: 0 auto 0 0;                 
+    display: flex;
+    align-items: center;
+    flex-direction: row !important;    
+    gap: var(--gap, 20px);
+    height: 100%;
+    width: max-content;                
+    animation: stack-scroll-x var(--dur, 22s) linear infinite;
+  }
+
+ 
+  .stack .stack-tape{
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: row;               
+    gap: var(--gap, 20px);
+  }
+
+  .stack .pill{
+    width: 170px;
+   }
+
+  @keyframes stack-scroll-x{
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); } 
+  }
 }
 
 
-@media (min-width: 1400px){
+@media (min-width: 1028px){
   .stack{ left: auto; }
 }
