@@ -360,7 +360,7 @@ body {
 }
 
 .map-wrap svg {
-
+position: relative;
   height: auto;
   transform: translateX(-32vw);
   flex: 2;
@@ -374,6 +374,7 @@ body {
   transition: filter 800ms ease;
   animation: clearMap 1s ease forwards;
   animation-delay: 13s;
+  position: relative;
 }
 
 @keyframes clearMap {
@@ -429,22 +430,13 @@ body {
 }
 
 .conteneurG {
-
-  flex: 0 auto;
   padding: 20px;
   pointer-events: none;
+  
 }
-
-.browser .conteneurG {
-  padding: 20px;
-}
-
 .recherche {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 10px 14px;
   border-bottom: 1px solid #222;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
@@ -453,13 +445,14 @@ body {
   pointer-events: none;
 }
 
+
 .result {
   display: grid;
-
-
-  max-height: 400px;
+  max-height: 450px;
   min-height: 0;
   overflow: auto;
+  grid-column: 1;
+
 }
 .resultT {
   display: block;
@@ -476,15 +469,13 @@ body {
   grid-row: 1;
 }
 
-.result>.result1 {
-  grid-column: 1;
 
-}
 
 
 .study {
   justify-content: right;
   display: grid;
+  
   border-right: #000000;
   border-width: 1px;
   margin: 0;
@@ -680,13 +671,12 @@ body {
   flex-direction: column;
   z-index: 10;
   background-color: white;
-  width: 350px;
-  height: 600px;
+  max-width: 325px;
+  max-height: 450px;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   opacity: 0;
   pointer-events: none;
-
   transition: all .25s ease;
 }
 
@@ -998,9 +988,9 @@ details[open] summary {
     blur(1.2px);
   mix-blend-mode: screen;      
   pointer-events: none;        
-will-change: transform, opacity;
+
   animation: summary-shine 6.5s ease-in-out infinite;
-  
+  animation-delay: 13s;
   z-index: 2; 
 }
 
@@ -1334,21 +1324,38 @@ transform: scale(1.05);
 img.linkedin{
   max-width: 25px;
   max-height: 25px;
-  margin-right: 5px;
+  margin-right: 10px;
 }
 
 img.instagram{
   max-width: 25px;
   max-height: 25px;
-  margin-right: 5px;
+  margin-right: 10px;
 }
 
 img.youtube{
   max-width: 25px;
   max-height: 25px;
-  margin-right: 5px;
+  margin-right: 10px;
 }
 
+img.mail{
+  max-width: 25px;
+  max-height: 23px;
+  margin-right: 10px;
+}
+
+img.tel{
+  max-width: 19px;
+  max-height: 19px;
+  margin-right: 10px;
+}
+
+img.whatsapp{
+  max-width: 32px;
+  max-height: 32px;
+  margin-right: 10px;
+}
 a:hover img.linkedin{
   transform: scale(1.08);
 }
@@ -1361,12 +1368,37 @@ a:hover img.youtube{
   transform: scale(1.08);
 }
 
+a:hover img.whatsapp{
+  transform: scale(1.08);
+}
+
+a:hover img.mail{
+  transform: scale(1.08);
+}
+
+a:hover img.tel{
+  transform: scale(1.08);
+}
+
 .logo{
+  
   display: flex;
   margin-top: 20px;
   align-items: center;
+  margin-bottom: 2px;
+}
+.contact{
 
-  font-size: 0;
+max-width: auto ;
+max-height: 35px;
+
+}
+
+.map-wrap .contact{
+  position: absolute;                      
+  left: 20px;
+  bottom: 20px;
+  z-index: 3;  
 }
 .logo a img{
   width: 100%; height: 100%;
