@@ -1598,3 +1598,21 @@ max-height: 35px;
 @media (min-width: 1028px){
   .stack{ left: auto; }
 }
+
+.map-focus{ position:absolute; left: 520px; top: 0; width:1px; height:1px; } 
+
+
+@media (max-width: 900px){
+  .map-wrap{
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: none;          /* au cas où tu avais du snap */
+  }
+  .map-wrap svg{
+    transform: none !important;      /* ← annule ton translateX desktop */
+    margin-left: 0 !important;
+    display: block;
+  }
+  /* si tu as un filter/transform sur .map-wrap qui crée un nouveau contexte, coupe-le */
+  .map-wrap{ filter: none; transform: none; }
+}
