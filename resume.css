@@ -1114,6 +1114,7 @@ details[open] summary {
 /* ===== Mobile / tablette : bottom-sheet avec languette + swipe ===== */
 @media (max-width:1027px) {
   .summary {
+    position: fixed; 
     left: 12px;
     right: 12px;
     bottom: 12px;
