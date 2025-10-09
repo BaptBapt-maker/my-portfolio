@@ -1120,7 +1120,7 @@ details[open] summary {
     bottom: 12px;
     width: auto;
     border-radius: 14px;
-
+ box-shadow:0 12px 30px rgba(0,0,0,.15);
     overflow-y: hidden;
 
 
@@ -1152,6 +1152,7 @@ details[open] summary {
 
 
   }
+.summary__content::-webkit-scrollbar{ display:none; }
 
   .summary__content {
     flex: 1 1 auto;
@@ -1160,8 +1161,21 @@ details[open] summary {
     -webkit-overflow-scrolling: touch;
     touch-action: pan-y;
     padding: 12px 14px;
-    background-color: transparent;
+    background: transparent;
+  overscroll-behavior: contain;      
+  scrollbar-width: none;   
+   -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent, #000 12px,
+    #000 calc(100% - 12px), transparent
+  );
+          mask-image: linear-gradient(
+    to bottom,
+    transparent, #000 12px,
+    #000 calc(100% - 12px), transparent
+  );
   }
+  
 
   .summary__label {
     width: 44px;
@@ -1228,8 +1242,16 @@ details[open] summary {
 
 .langues {
   display: grid;
-  gap: 21px;
+  gap: 15px;
   justify-content: center;
+}
+
+@media (max-width:1027px) {
+.langues {
+  display: grid;
+  gap: 13px;
+  justify-content: center;
+}
 }
 
 .langues img {
