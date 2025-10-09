@@ -453,6 +453,7 @@ body {
   min-height: 0;
   overflow: auto;
   grid-column: 1;
+  padding : 10px;
 
 }
 
