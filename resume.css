@@ -1160,6 +1160,7 @@ details[open] summary {
     -webkit-overflow-scrolling: touch;
     touch-action: pan-y;
     padding: 12px 14px;
+    background-color: transparent;
   }
 
   .summary__label {
