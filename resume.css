@@ -444,6 +444,9 @@ body {
   user-select: none;
   line-height: normal;
   pointer-events: none;
+  padding : 20px;
+  
+  
 }
 
 
