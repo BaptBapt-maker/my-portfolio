@@ -21,52 +21,83 @@
                 <img src="logo.jpg" class="egclogo">
             </div>
         </div>
-        <div class = "photoecole">
-        <img src="P32078897D5579991G.webp" class="photo">
+        <div class="photoecole">
+            <img src="P32078897D5579991G.webp" class="photo">
         </div>
-         <p class="egc-diploma">
+        <p class="egc-diploma">
             <a class="egc-chip" href="/docs/diplome_egc.pdf" target="_blank" rel="noopener">Voir le diplôme</a>
         </p>
     </section>
-      
-    <div class="resume">
-        <h2>Projet de fin d'étude : Création d’entreprise — Agence événementielle</h2>
-        <p>
-            Dossier complet (marché, stratégie, exécution) pour une offre de spectacles & supports
-            technologiques : mapping 3D, écrans d’eau, hologrammes.
-        </p>
+    <div class="pfed-wrapper">
+        <div class="pfed-left">
+            <div class="resume">
+                <h2>Projet de fin d'étude : Création d’entreprise — Agence événementielle</h2>
+                <p>
+                    Dossier complet (marché, stratégie, exécution) pour une offre de spectacles & supports
+                    technologiques : mapping 3D, écrans d’eau, hologrammes.
+                </p>
 
-        <ul class="soft-proof" id="pfed-bullets">
-            <li data-label="Livrables clés" data-cases="5"
-                data-tip="Étude de marché, PESTEL & Porter, ciblage/positionnement, mix marketing, chiffrages.">
-                Étude de marché · PESTEL & Porter · Ciblage/positionnement · Mix marketing · Chiffrages
-            </li>
+                <ul class="soft-proof" id="pfed-bullets">
+                    <li data-label="Livrables clés" data-cases="5"
+                        data-tip="Étude de marché, PESTEL & Porter, ciblage/positionnement, mix marketing, chiffrages.">
+                        <span class="tip">Étude de marché, PESTEL & Porter, ciblage/positionnement, mix marketing,
+                            chiffrages.</span>
+                        Étude de marché · PESTEL & Porter · Ciblage/positionnement · Mix marketing · Chiffrages
+                    </li>
 
-            <li data-label="Rôle & impact" data-cases="5"
-                data-tip="Pilotage du dossier, rédaction principale, cohérence éditoriale, consolidation des annexes.">
-                Structuration + rédaction majoritaire · Pilotage du rendu · Consolidation des annexes
-            </li>
+                    <li data-label="Rôle & impact" data-cases="5"
+                        data-tip="Pilotage du dossier, rédaction principale, cohérence éditoriale, consolidation des annexes.">
+                        <span class="tip">Pilotage du dossier, rédaction principale, cohérence éditoriale, consolidation
+                            des
+                            annexes.</span>
+                        Structuration + rédaction majoritaire · Pilotage du rendu · Consolidation des annexes
+                    </li>
 
-            <li data-label="Réglementaire & RSE" data-cases="4"
-                data-tip="Licence entrepreneur de spectacles, normes/labels (ISO, Anaé), éco-conception d’événements.">
-                Veille réglementaire · Normes/labels · Éco-conception
-            </li>
+                    <li data-label="Réglementaire & RSE" data-cases="4"
+                        data-tip="Licence entrepreneur de spectacles, normes/labels (ISO, Anaé), éco-conception d’événements.">
+                        <span class="tip">Licence entrepreneur de spectacles, normes/labels (ISO, Anaé), éco-conception
+                            d’événements.</span>
+                        Veille réglementaire · Normes/labels · Éco-conception
+                    </li>
 
-            <li data-label="Techno & faisabilité" data-cases="4"
-                data-tip="Matériels, contraintes, coûts pour mapping 3D, écrans d’eau, hologrammes.">
-                Étude techno (mapping 3D, écrans d’eau, hologrammes)
-            </li>
+                    <li data-label="Techno & faisabilité" data-cases="2"
+                        data-tip="Matériels, contraintes, coûts pour mapping 3D, écrans d’eau, hologrammes.">
+                        <span class="tip">Matériels, contraintes, coûts pour mapping 3D, écrans d’eau,
+                            hologrammes.</span>
+                        Étude techno (mapping 3D, écrans d’eau, hologrammes)
+                    </li>
 
-            <li data-label="Éco & distribution" data-cases="3"
-                data-tip="Investissement initial, hypothèses de marge, canaux & schéma de distribution.">
-                Investissement · Marges · Distribution
-            </li>
-        </ul>
-        <iframe
-            src="/my-portofolio/vendor/pdfjs/web/viewer.html?file=/my-portofolio/assets/pdf/etudes-strategiques.pdf#zoom=page-fit"
-            title="Dossier du projet" style="width:100%;height:78vh;border:0"></iframe>
+                    <li data-label="Éco & distribution" data-cases="3"
+                        data-tip="Investissement initial, hypothèses de marge, canaux & schéma de distribution.">
+                        <span class="tip">Investissement initial, hypothèses de marge, canaux & schéma de
+                            distribution.</span>
+                        Investissement · Marges · Distribution
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="pfed-right">
+            <div class="pdf-container">
+                <iframe
+                    src="/my-portofolio/vendor/pdfjs/web/viewer.html?file=/my-portofolio/assets/pdf/etudes-strategiques.pdf#zoom=page-fit"
+                    title="Dossier du projet" style="width:100%;height:78vh;border:0"></iframe>
+            </div>
+        </div>
     </div>
-
+    <script>
+        document.querySelectorAll('#pfed-bullets > li').forEach(li => {
+            const n = parseInt(li.dataset.cases || '0', 10);
+            const max = 5;
+            const wrap = document.createElement('div');
+            wrap.className = 'cases-dots';
+            for (let i = 0; i < max; i++) {
+                const d = document.createElement('span');
+                d.className = 'dot' + (i < n ? ' filled' : '');
+                wrap.appendChild(d);
+            }
+            li.appendChild(wrap);
+        });
+    </script>
 </body>
 
 </html>
