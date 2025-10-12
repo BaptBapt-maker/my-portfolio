@@ -49,7 +49,7 @@
     linear-gradient(180deg, #F7FAFF, #EEF5FF);
 }
 
-.egc-section{ max-width: 1550px; margin: 0 auto; padding: 32px 20px; }
+.egc-section{ max-width: 1550px;}
 
 
 .egc-hero{
@@ -307,14 +307,7 @@ p, li {
   h1 { font-size: clamp(1.9rem, 6.2vw, 2.4rem); }
 }
 
-.pfed-wrapper{
-  display:grid !important;
-  grid-template-columns: minmax(0,1fr) min(42vw, 520px);
-  gap: 1.6rem;
-  align-items:start;
-  width:min(1200px, 92%);
-  margin:2rem auto;
-}
+
 
 
 .pfed-left{
@@ -324,6 +317,8 @@ p, li {
   gap:1.25rem;
   border:1px solid #d9e2ec;
   border-radius:12px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 
