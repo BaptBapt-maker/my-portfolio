@@ -6,10 +6,23 @@
   --egc-sea:#7FC8C9;
 }
 
-.egc-section.egc-hero {
-  min-height: 500px; 
+.egc-section.egc-hero{
   position: relative;
+  width: 100vw;             
+  left: 50%;                 
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  background: linear-gradient(#eaf4ff, #dfeeff);
+  overflow: hidden;
+  padding: 48px 0 64px;      
+  z-index: 0;
+ 
+  padding: 40px 0 48px;
+  background: linear-gradient(#eaf4ff,#dfeeff); 
+  overflow : clip; 
 }
+
 .egc-section.egc-hero > *{
   position:relative;
   z-index:1;
@@ -23,8 +36,8 @@
   background-size: 120% auto; 
   z-index: 0;
   pointer-events: none;
-
   filter: blur(0.2px) drop-shadow(0 8px 20px rgba(10,31,68,.12));
+
 }
 
 
