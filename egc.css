@@ -6,6 +6,28 @@
   --egc-sea:#7FC8C9;
 }
 
+.egc-section.egc-hero {
+  min-height: 500px; 
+  position: relative;
+}
+.egc-section.egc-hero > *{
+  position:relative;
+  z-index:1;
+}
+.egc-section.egc-hero::before {
+ content: "";
+  position: absolute;
+  inset: 0;
+  background: url("normandie.png") no-repeat center center;
+  background-position: right 6% top 30%;
+  background-size: 120% auto; 
+  z-index: 0;
+  pointer-events: none;
+
+  filter: blur(0.2px) drop-shadow(0 8px 20px rgba(10,31,68,.12));
+}
+
+
 .egc-wrap{ 
   font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial;
   color: var(--egc-ink);
@@ -315,7 +337,7 @@ p, li {
 .pfed-wrapper{
   display:grid !important;
   grid-template-columns: minmax(0,1fr) min(42vw, 520px);
-  gap: 2rem;
+  gap: 1.6rem;
   align-items:start;
   width:min(1200px, 92%);
   margin:2rem auto;
@@ -327,12 +349,15 @@ p, li {
   display:flex;
   flex-direction:column;
   gap:1.25rem;
+  border:1px solid #d9e2ec;
+  border-radius:12px;
 }
 
-/* Colonne droite : PDF */
+
 .pfed-right .pdf-container{
   width:100%;
   height:78vh;
+  min-height: 520px;
   border:1px solid #d9e2ec;
   border-radius:12px;
   box-shadow:0 4px 20px rgba(0,0,0,.08);
@@ -343,8 +368,12 @@ p, li {
   width:100%;
   height:100%;
   border:0;
+ 
+  
 }
-
+.pdf-title {
+  margin-left: 15px;
+}
 
 @media (max-width: 980px){
   .pfed-wrapper{
