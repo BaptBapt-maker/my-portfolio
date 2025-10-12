@@ -1,0 +1,141 @@
+:root {
+  --bg-light: #f8fbff;
+  --bg-gradient: linear-gradient(180deg, #eaf4ff, #f3f8fe);
+  --ink: #0b1e39;
+  --accent: #0077ff;
+  --muted: #6b7280;
+  --card-bg: #f9fbfd;
+  --border: #dce5f1;
+}
+
+/* ====== GLOBAL ====== */
+body {
+  font-family: "Inter", "Segoe UI", Roboto, sans-serif;
+  background: var(--bg-gradient);
+  color: var(--ink);
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* ====== SECTION PRINCIPALE ====== */
+section.summary {
+  max-width: 1200px;
+  margin: 4rem auto;
+  padding: 2rem 3rem;
+  border-radius: 24px;
+  background: var(--bg-light);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ====== HEAD ====== */
+.summary .head h1 {
+  font-size: 2rem;
+  margin: 0;
+  color: var(--ink);
+}
+
+.summary .head h2 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--muted);
+  margin: 0.2rem 0 1rem;
+}
+
+.summary .head p.d {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+
+/* ====== BLOCS ====== */
+.summary .bloc {
+  margin-bottom: 2rem;
+}
+
+.summary .bloc h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+
+/* ====== LISTES ====== */
+.summary ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.summary li {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  margin: 0.4rem 0;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.summary li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* ====== DOCUMENT / PDF ====== */
+.summary .doc {
+  margin-top: 3rem;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+}
+
+.summary .doc h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: var(--ink);
+}
+
+/* ====== BADGE CASES ====== */
+.soft-proof li::after {
+  content: attr(data-cases) "★";
+  float: right;
+  color: var(--accent);
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+/* ====== HOVER TOOLTIP ====== */
+.soft-proof li[data-tip]:hover::before {
+  content: attr(data-tip);
+  position: absolute;
+  background: #0b1e39;
+  color: #fff;
+  font-size: 0.8rem;
+  padding: 0.5rem 0.7rem;
+  border-radius: 8px;
+  top: -40px;
+  right: 10px;
+  white-space: nowrap;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  opacity: 0.95;
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 768px) {
+  section.summary {
+    padding: 1.5rem;
+    margin: 2rem 1rem;
+  }
+
+  .summary .head h1 {
+    font-size: 1.5rem;
+  }
+
+  .summary .bloc h3 {
+    font-size: 1.1rem;
+  }
+}
