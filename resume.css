@@ -425,7 +425,7 @@ body {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   opacity: 0;
   pointer-events: none;
-
+margin-top: 70px;
   transition: all .25s ease;
 }
 
@@ -1852,7 +1852,8 @@ a:hover img.tel {
 @media (max-width:570px){
   .resultT { display:block; }
   .study   { display:none;  }
-  .liens_associes { display:block; margin-top: 8px; pointer-events: auto;}
+  .liens_associes { display:block; margin-top: 8px; pointer-events: none;}
+  .liens_associes a{pointer-events: auto;}
 }
 
 /* >570px : les deux visibles, pas de lien */
