@@ -1807,14 +1807,18 @@
                                 </g>
                             </svg>
                         </div>
+                        <p class="liens_associes">
+                            <a href="#" class="js-toggle"> Recherche associée : Baptiste Lecaudey Normandie Étude</a>
+                        </p>
                     </div>
                 </div>
 
                 <div class="result">
                     <div class="resultT">
                         <div class="titre">
-                                <img src="116429543-internet-icon-internet-symbol-planet-planet-earth-global-wireless-technology-vector.jpg" class="imgR">
-                        <h3 class="link">Votre entreprise </h3>
+                            <img src="116429543-internet-icon-internet-symbol-planet-planet-earth-global-wireless-technology-vector.jpg"
+                                class="imgR">
+                            <h3 class="link">Votre entreprise </h3>
                         </div>
                         <p class="description">Data analyst & IA <br>
                             Developpement web
@@ -1852,6 +1856,7 @@
 
                 <div class="conteneurG">
                     <div class="recherche">
+
                         <div class="texte_recherche">
                             <p>Baptiste Lecaudey Normandie</p>
                         </div>
@@ -1921,6 +1926,10 @@
                                 </g>
                             </svg>
                         </div>
+
+                        <p class="liens_associes">
+                            <a href="#" class="js-toggle"> Recherche associée : Baptiste Lecaudey Normandie Étude</a>
+                        </p>
                     </div>
                 </div>
 
@@ -1958,13 +1967,13 @@
                                 Suivi personnel des situations</p>
                             <p class="date">Flers, Septembre 2016 à Octobre 2017</p>
                         </div>
-                         <div class="result1">
+                        <div class="result1">
                             <div class="titre">
                                 <img src="DRIVE.png" class="imgR">
                                 <h3 class="link">Leclerc Drive - Préparateur de commande</h3>
                             </div>
                             <p class="description">Service client <br>
-                            Préparation de commande</p>
+                                Préparation de commande</p>
                             <p class="date">Flers, Avril 2015 à Juillet 2015</p>
                         </div>
                         <div class="result1">
@@ -2387,7 +2396,8 @@
                     <details>
                         <summary>&nbsp&nbspvoir plus....</summary>
                         <p>
-                            &nbsp&nbspAu sein d'une famille bédouine, je participais aux tâches de tous les jours et je
+                            &nbsp&nbspAu sein d'une famille bédouine, je participais aux tâches de tous les jours et
+                            je
                             les aider avec les touristes français sur le chemin d'Abraham.
                         </p>
                     </details>
@@ -2521,7 +2531,8 @@
                     <details>
                         <summary>&nbsp&nbspvoir plus....</summary>
                         <p>
-                            &nbsp&nbsp Dans les communautés du lac Bunyonyi, je vivais au rythme des locaux. J'ai pu, à
+                            &nbsp&nbsp Dans les communautés du lac Bunyonyi, je vivais au rythme des locaux. J'ai
+                            pu, à
                             mon niveau participer à aider les batwas. Peuple pygmé, qui subit une
                             pauvreté et une ostracisation parmis les pus fortes de la planète.
                         </p>
@@ -2608,7 +2619,7 @@
                             <img src="django.png" class="logo">
                             <p>Django</p>
                         </li>
-                          <li class="pill">
+                        <li class="pill">
                             <img src="java.png" class="logo">
                             <p>Java</p>
                         </li>
@@ -2671,7 +2682,7 @@
                             <img src="python_logo_icon_168886.png" class="logo">
                             <p>Python</p>
                         </li>
-                          <li class="pill">
+                        <li class="pill">
                             <img src="django.png" class="logo">
                             <p>Django</p>
                         </li>
@@ -2683,7 +2694,7 @@
                             <img src="javascript-logo-javascript-icon-transparent-free-png.webp" class="logo">
                             <p>JavaScript</p>
                         </li>
-                
+
                         <li class="pill">
                             <img src="663978.png" class="logo">
                             <p>HTML</p>
@@ -2994,7 +3005,7 @@
                     sheet.style.transform = open || !mq.matches ? 'translateY(0)' : `translateY(${closedY}px)`;
                 }
 
-                // ===== Bind/unbind pour mobile/tablette uniquement =====
+
                 function bindMobile() {
                     if (bound || !handle) return;
                     bound = true;
@@ -3033,10 +3044,10 @@
                     document.body.classList.remove('modal-open');
                     sheet.classList.remove('open');
                     sheet.style.transition = '';
-                    setOpen(true); // sur desktop, toujours ouvert et fixe
+                    setOpen(true);
                 }
 
-                // init selon la taille
+
                 if (mq.matches) bindMobile(); else unbindMobile();
                 mq.addEventListener('change', e => e.matches ? bindMobile() : unbindMobile());
             })();
@@ -3045,30 +3056,66 @@
             window.addEventListener('load', () => {
                 if (!matchMedia('(max-width:900px)').matches) return;
 
-                const scroller = document.querySelector('.map-wrap'); // l’élément qui a overflow-x:auto
+                const scroller = document.querySelector('.map-wrap');
                 const svg = scroller?.querySelector('svg');
                 if (!scroller || !svg) return;
 
-                // Essaie différents sélecteurs selon ton SVG
+
                 const target =
 
                     svg.querySelector('.Angola');
 
                 if (!target) return;
 
-                // Coordonnées pixel du path et du scroller
+
                 const tRect = target.getBoundingClientRect();
                 const sRect = scroller.getBoundingClientRect();
 
-                // Centre du path *dans le scroller*
+
                 const centerX = (tRect.left + tRect.right) / 2 - sRect.left + scroller.scrollLeft;
 
-                // On centre ce point dans la fenêtre visible du scroller
+
                 const left = Math.max(0, centerX - scroller.clientWidth / 2);
 
-                scroller.scrollTo({ left, behavior: 'instant' }); // ou 'auto' pour une anim
+                scroller.scrollTo({ left, behavior: 'instant' });
             });
 
+            document.addEventListener('click', (e) => {
+                const a = e.target.closest('.js-toggle');
+                if (!a) return;                 // pas un lien toggle → on ignore
+
+                e.preventDefault();             // empêche le changement de hash
+                e.stopPropagation();
+                const mq = window.matchMedia('(max-width: 570px)');
+
+                function setState(state) {
+                    document.body.classList.toggle('show-resultT', state === 'resultT');
+                    document.body.classList.toggle('show-study', state === 'study');
+                    toggle.textContent = (state === 'study') ? 'Recherche associée : Baptiste Lecaudey Experiences' : 'Recherche associée : Baptiste Lecaudey Etudes';
+                }
+
+                function sync() {
+                    if (mq.matches) {
+                        // Mobile : un seul bloc visible (results par défaut)
+                        setState('resultT');
+                    } else {
+                        // Desktop : les deux visibles, pas d’override
+                        document.body.classList.remove('show-resultT', 'show-study');
+                    }
+                }
+
+                // Init + resize
+                sync();
+                mq.addEventListener('change', sync);
+
+                // Toggle en mobile
+                toggle.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (!mq.matches) return;
+                    const isStudy = document.body.classList.contains('show-study');
+                    setState(isStudy ? 'resultT' : 'study');
+                });
+            });
         </script>
 
     </main>
