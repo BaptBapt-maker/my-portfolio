@@ -3080,40 +3080,56 @@
                 scroller.scrollTo({ left, behavior: 'instant' });
             });
 
-            document.addEventListener('click', (e) => {
-                const a = e.target.closest('.js-toggle');
-                if (!a) return;                 // pas un lien toggle → on ignore
 
-                e.preventDefault();             // empêche le changement de hash
-                e.stopPropagation();
+            document.addEventListener('DOMContentLoaded', () => {
                 const mq = window.matchMedia('(max-width: 570px)');
+                document.querySelectorAll('.js-toggle').forEach(a => {
+                    if (location.hash) a.setAttribute('href', location.hash); // garde le même :target
+                });
+                const LABEL_RESULTT = 'Recherche associée : Baptiste Lecaudey Etudes';
+                const LABEL_STUDY = 'Recherche associée : Baptiste Lecaudey Experiences';
 
                 function setState(state) {
+                    // state: 'resultT' ou 'study'
                     document.body.classList.toggle('show-resultT', state === 'resultT');
                     document.body.classList.toggle('show-study', state === 'study');
-                    toggle.textContent = (state === 'study') ? 'Recherche associée : Baptiste Lecaudey Experiences' : 'Recherche associée : Baptiste Lecaudey Etudes';
+                    updateLabels();
+                }
+
+                function updateLabels() {
+                    const showingStudy = document.body.classList.contains('show-study');
+                    document.querySelectorAll('.js-toggle').forEach(a => {
+                        a.textContent = showingStudy ? LABEL_STUDY : LABEL_RESULTT;
+                    });
                 }
 
                 function sync() {
                     if (mq.matches) {
-                        // Mobile : un seul bloc visible (results par défaut)
+                        // Mobile : resultT visible par défaut
                         setState('resultT');
                     } else {
                         // Desktop : les deux visibles, pas d’override
                         document.body.classList.remove('show-resultT', 'show-study');
+                        updateLabels();
                     }
                 }
 
-                // Init + resize
+                // Init + écoute des changements de viewport
                 sync();
                 mq.addEventListener('change', sync);
 
-                // Toggle en mobile
-                toggle.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    if (!mq.matches) return;
-                    const isStudy = document.body.classList.contains('show-study');
-                    setState(isStudy ? 'resultT' : 'study');
+                // Délégation : fonctionne pour tous les liens .js-toggle
+                document.addEventListener('click', (e) => {
+                    const a = e.target.closest('.js-toggle');
+                    if (!a) return;
+
+                    e.preventDefault();    // évite de changer le hash => l’overlay reste ouvert
+                    e.stopPropagation();   // évite les handlers "click-outside"
+
+                    if (!mq.matches) return; // on ne toggle qu'en mobile
+
+                    const next = document.body.classList.contains('show-study') ? 'resultT' : 'study';
+                    setState(next);
                 });
             });
         </script>
