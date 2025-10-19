@@ -9,36 +9,35 @@
 </head>
 
 <body>
-<header>
-    <a href="index.html"></a>
-</header>
+    <header>
+        <a href="index.html"></a>
+    </header>
 
     <section class="summary" role="main" aria-label="Projet">
-<a href="index.html">Retour à la carte</a>
+        <a href="index.html">Retour à la carte</a>
         <div class="head">
             <h1>Epitech — Portfolio</h1>
-            <h2>Construction du Portfolio - Octobre 2025</h2>
+            <h2>Jobboard / Pot L'emploi - Octobre 2025</h2>
             <p class="d">
-                L'objectif de cet exercice est de construire son propre portfolio.
-                N'ayant pas de travaux liés spécifiquement à l'informatique, j'ai choisi de le faire d'une façon qui me
-                représente particulièrement.
+                L'objectif de cet exercice est de construire une base de données et les relations entres les tables au
+                travers d'une plateforme d'annonces d'emploi.
             </p>
         </div>
 
 
-        <figure class="hero" >
+        <figure class="hero">
             <div class="ig-carousel" data-autoplay="false" aria-label="Galerie d'images">
                 <div class="ig-carousel__viewport">
                     <div class="ig-carousel__track">
-                        
-                        
-                        <div class="ig-carousel__slide"><img src="debut.png" alt="img 2">
+
+
+                        <div class="ig-carousel__slide"><img src="assets/img/debut.png" alt="img 2">
                         </div>
-                        <div class="ig-carousel__slide"><img src="suite.png" alt="img 3">
+                        <div class="ig-carousel__slide"><img src="assets/img/suite.png" alt="img 3">
                         </div>
-                        <div class="ig-carousel__slide"><img src="adG.png" alt="img 4">
+                        <div class="ig-carousel__slide"><img src="assets/img/adG.png" alt="img 4">
                         </div>
-                        <div class="ig-carousel__slide"><img src="adig.png" alt="img 4">
+                        <div class="ig-carousel__slide"><img src="assets/img/adig.png" alt="img 4">
                         </div>
                     </div>
                 </div>
@@ -164,10 +163,10 @@
             let isDragging = false;
             let startX = 0;
             let currentX = 0;
-            let deltaPx = 0;       
+            let deltaPx = 0;
             let autoTimer = null;
 
-            
+
             dotsWrap.innerHTML = '';
             slides.forEach((_, i) => {
                 const dot = document.createElement('button');
@@ -179,13 +178,13 @@
             });
 
             function trackTranslate() {
-                const base = -index * root.clientWidth; 
-                return base + deltaPx;                  
+                const base = -index * root.clientWidth;
+                return base + deltaPx;
             }
 
             function update() {
                 track.style.transition = isDragging ? 'none' : 'transform .35s ease';
-                track.style.transform = `translateX(${trackTranslate()}px)`; 
+                track.style.transform = `translateX(${trackTranslate()}px)`;
                 dotsWrap.querySelectorAll('.ig-carousel__dot')
                     .forEach((d, i) => d.classList.toggle('is-active', i === index));
                 if (prevBtn) prevBtn.style.opacity = index === 0 ? .4 : 1;
@@ -202,11 +201,11 @@
             function next() { goTo(index + 1); }
             function prev() { goTo(index - 1); }
 
-            
+
             if (prevBtn) prevBtn.addEventListener('click', prev);
             if (nextBtn) nextBtn.addEventListener('click', next);
 
-            
+
             function onPointerDown(e) {
                 isDragging = true;
                 startX = (e.touches ? e.touches[0].clientX : e.clientX);
@@ -217,7 +216,7 @@
             function onPointerMove(e) {
                 if (!isDragging) return;
                 currentX = (e.touches ? e.touches[0].clientX : e.clientX);
-                deltaPx = currentX - startX;   
+                deltaPx = currentX - startX;
                 update();
             }
             function onPointerUp() {
@@ -226,7 +225,7 @@
                 const threshold = root.clientWidth * 0.15;
                 if (deltaPx < -threshold) next();
                 else if (deltaPx > threshold) prev();
-                else goTo(index); 
+                else goTo(index);
             }
 
             root.addEventListener('mousedown', onPointerDown);
@@ -251,7 +250,7 @@
         document.querySelectorAll('.ig-carousel').forEach(setupCarousel);
     })();
 
-    
+
 </script>
 
 </html>
