@@ -425,7 +425,7 @@ body {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   opacity: 0;
   pointer-events: none;
-margin-top: 70px;
+  margin-top: 70px;
   transition: all .25s ease;
 }
 
@@ -515,7 +515,7 @@ margin-top: 70px;
 .result1 {
   display: grid;
   align-content: start;
-  justify-items: start;
+  
 }
 
 .result>.study {
@@ -528,7 +528,7 @@ margin-top: 70px;
 
 .study {
   justify-content: right;
-  display: grid;
+  display: flex;
 
   border-right: #000000;
   border-width: 1px;
@@ -553,7 +553,7 @@ margin-top: 70px;
 }
 
 .carre {
-  justify-content: right;
+  justify-self: right;
   display: grid;
   border-top: #060606;
   border-width: 2px;
