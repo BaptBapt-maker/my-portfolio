@@ -743,6 +743,7 @@ padding-right: 10px;
   .icons{
     flex: 0 0 36px;  
     width: 36px;
+    margin-left: 20px;
   }
 }
 
