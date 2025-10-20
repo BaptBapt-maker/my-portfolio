@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fiches — Portfolio</title>
+
+    <link rel="stylesheet" href="epitech.css">
+    <link rel="stylesheet" href="fiches.css">
+</head>
+
+<section class="summaries-shell" aria-label="Fiches">
+    <button class="nav-btn prev" aria-label="Fiche précédente">❮</button>
+
+    <div id="summaries" class="summaries" aria-live="polite">
+    
+    </div>
+
+    <button class="nav-btn next" aria-label="Fiche suivante">❯</button>
+  </section>
+
+  <div id="dots" class="dots" aria-hidden="true"></div>
+
+  <script>
+    
+    window.SUMMARY_SOURCES = [
+        "Jobboard.html",
+      "portfolio.html",
+      
+   
+    ];
+  </script>
+  <script src="assets/js/fiches.js" defer></script>
+  <script src="assets/js/carroussel.js" defer></script>
+</body>
+</html>

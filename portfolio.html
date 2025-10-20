@@ -9,12 +9,10 @@
 </head>
 
 <body>
-<header>
-    <a href="index.html"></a>
-</header>
+   
 
     <section class="summary" role="main" aria-label="Projet">
-<a href="index.html">Retour à la carte</a>
+        <a href="index.html">Retour à la carte</a>
         <div class="head">
             <h1>Epitech — Portfolio</h1>
             <h2>Construction du Portfolio - Octobre 2025</h2>
@@ -26,12 +24,12 @@
         </div>
 
 
-        <figure class="hero" >
+        <figure class="hero">
             <div class="ig-carousel" data-autoplay="false" aria-label="Galerie d'images">
                 <div class="ig-carousel__viewport">
                     <div class="ig-carousel__track">
-                        
-                        
+
+
                         <div class="ig-carousel__slide"><img src="assets/img/debut.png" alt="img 2">
                         </div>
                         <div class="ig-carousel__slide"><img src="assets/img/suite.png" alt="img 3">
@@ -150,108 +148,6 @@
             </article>
         </div>
 </body>
-<script>
-    (function () {
-        function setupCarousel(root) {
-            const track = root.querySelector('.ig-carousel__track');
-            const slides = Array.from(root.querySelectorAll('.ig-carousel__slide'));
-            const prevBtn = root.querySelector('.ig-carousel__prev');
-            const nextBtn = root.querySelector('.ig-carousel__next');
-            const dotsWrap = root.querySelector('.ig-carousel__dots');
-            const autoplay = root.getAttribute('data-autoplay') === 'true';
-
-            let index = 0;
-            let isDragging = false;
-            let startX = 0;
-            let currentX = 0;
-            let deltaPx = 0;       
-            let autoTimer = null;
-
-            
-            dotsWrap.innerHTML = '';
-            slides.forEach((_, i) => {
-                const dot = document.createElement('button');
-                dot.className = 'ig-carousel__dot';
-                dot.type = 'button';
-                dot.setAttribute('aria-label', 'Aller à l’image ' + (i + 1));
-                dot.addEventListener('click', () => goTo(i));
-                dotsWrap.appendChild(dot);
-            });
-
-            function trackTranslate() {
-                const base = -index * root.clientWidth; 
-                return base + deltaPx;                  
-            }
-
-            function update() {
-                track.style.transition = isDragging ? 'none' : 'transform .35s ease';
-                track.style.transform = `translateX(${trackTranslate()}px)`; 
-                dotsWrap.querySelectorAll('.ig-carousel__dot')
-                    .forEach((d, i) => d.classList.toggle('is-active', i === index));
-                if (prevBtn) prevBtn.style.opacity = index === 0 ? .4 : 1;
-                if (nextBtn) nextBtn.style.opacity = index === slides.length - 1 ? .4 : 1;
-            }
-
-            function goTo(i) {
-                index = Math.max(0, Math.min(slides.length - 1, i));
-                deltaPx = 0;
-                update();
-                restartAutoplay();
-            }
-
-            function next() { goTo(index + 1); }
-            function prev() { goTo(index - 1); }
-
-            
-            if (prevBtn) prevBtn.addEventListener('click', prev);
-            if (nextBtn) nextBtn.addEventListener('click', next);
-
-            
-            function onPointerDown(e) {
-                isDragging = true;
-                startX = (e.touches ? e.touches[0].clientX : e.clientX);
-                currentX = startX;
-                deltaPx = 0;
-                update();
-            }
-            function onPointerMove(e) {
-                if (!isDragging) return;
-                currentX = (e.touches ? e.touches[0].clientX : e.clientX);
-                deltaPx = currentX - startX;   
-                update();
-            }
-            function onPointerUp() {
-                if (!isDragging) return;
-                isDragging = false;
-                const threshold = root.clientWidth * 0.15;
-                if (deltaPx < -threshold) next();
-                else if (deltaPx > threshold) prev();
-                else goTo(index); 
-            }
-
-            root.addEventListener('mousedown', onPointerDown);
-            root.addEventListener('mousemove', onPointerMove);
-            window.addEventListener('mouseup', onPointerUp);
-            root.addEventListener('touchstart', onPointerDown, { passive: true });
-            root.addEventListener('touchmove', onPointerMove, { passive: true });
-            root.addEventListener('touchend', onPointerUp);
-
-            root.tabIndex = 0;
-            root.addEventListener('keydown', (e) => {
-                if (e.key === 'ArrowRight') next();
-                if (e.key === 'ArrowLeft') prev();
-            });
-
-            window.addEventListener('resize', () => update());
-
-            goTo(0);
-            restartAutoplay();
-        }
-
-        document.querySelectorAll('.ig-carousel').forEach(setupCarousel);
-    })();
-
-    
-</script>
+<script src="assets/js/carroussel.js" defer></script>
 
 </html>

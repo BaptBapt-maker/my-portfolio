@@ -1,0 +1,138 @@
+:root {
+    --gap: clamp(16px, 3vw, 28px);
+    --transition: .35s cubic-bezier(.2, .6, .2, 1);
+
+
+    --tilt: 3deg;
+    --shrink: .985;
+    --shift: 6px;
+    --blur: 2px;
+    --fade: .82;
+}
+
+
+.summaries-shell {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    gap: var(--gap);
+    position: relative;
+
+}
+
+.summaries-shell .nav-btn{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;              
+  pointer-events: auto;     
+}
+.summaries-shell .nav-btn.prev{ left: 10px; }
+.summaries-shell .nav-btn.next{ right: 10px; }
+
+.nav-btn {
+    border: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    background: rgba(0, 0, 0, .06);
+    backdrop-filter: blur(6px);
+    cursor: pointer;
+    transition: background .2s ease, transform .15s ease;
+}
+
+.nav-btn:hover {
+    background: rgba(0, 0, 0, .10);
+    transform: translateY(-1px);
+}
+
+.nav-btn:active {
+    transform: none;
+}
+
+
+.summaries {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: max-content;
+    gap: var(--gap);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    padding: 0;
+    perspective: 1400px;
+    transform-style: preserve-3d;
+}
+
+
+.slide {
+    scroll-snap-align: center;
+}
+
+
+.slide .summary {
+    transition: transform var(--transition),
+        filter var(--transition),
+        opacity var(--transition);
+    pointer-events: none;
+}
+
+
+.slide.is-active .summary {
+    transform: none;
+    filter: none;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+.slide.is-left .summary {
+    transform: rotateZ(calc(-1 * var(--tilt))) scale(var(--shrink)) translateX(calc(-1 * var(--shift)));
+    filter: blur(var(--blur)) saturate(.95);
+    opacity: var(--fade);
+}
+
+.slide.is-right .summary {
+    transform: rotateZ(var(--tilt)) scale(var(--shrink)) translateX(var(--shift));
+    filter: blur(var(--blur)) saturate(.95);
+    opacity: var(--fade);
+}
+
+
+.dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 12px 0 0;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, .22);
+    transition: transform .2s ease, background .2s ease;
+}
+
+.dot.is-active {
+    background: #000;
+    transform: scale(1.25);
+}
+
+
+@media (max-width: 900px) {
+    :root {
+        --tilt: 2deg;
+        --shift: 4px;
+    }
+}
+
+@media (max-width: 600px) {
+    :root {
+        --tilt: 1.5deg;
+        --shift: 3px;
+        --blur: 1.5px;
+    }
+}
