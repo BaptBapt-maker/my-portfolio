@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="resume.css">
+     <link rel="stylesheet" href="chat.css" />
     <title>Resume - Portfolio</title>
 </head>
 
@@ -1248,31 +1249,9 @@
                         <circle class="pin2 uganda" data-key="atlantic" cx="900" cy="510" r="5" />
                     </a>
                 </svg>
-                <script>
 
-                    const points = document.querySelectorAll(".pin1");
+                <script src="assets/js/point_selector.js" defer></script>
 
-                    points.forEach(point => {
-                        point.addEventListener("mouseenter", () => {
-                            point.setAttribute("r", 10);
-                        });
-
-                        point.addEventListener("mouseleave", () => {
-                            point.setAttribute("r", 5);
-                        });
-                    });
-                    const points2 = document.querySelectorAll(".pin2");
-
-                    points2.forEach(point => {
-                        point.addEventListener("mouseenter", () => {
-                            point.setAttribute("r", 10);
-                        });
-
-                        point.addEventListener("mouseleave", () => {
-                            point.setAttribute("r", 5);
-                        });
-                    });
-                </script>
                 <div class="contact">
                     <div class="logo">
 
@@ -2813,26 +2792,9 @@
                                 </div>
                             </div>
                         </div>
-                        <script>
-                            const COLORS = {
-                                A1: "#94a3b8", A2: "#64748b",
-                                B1: "#22c55e", B2: "#0ea5e9",
-                                C1: "#f59e0b", C2: "#ef4444"
-                            };
 
-                            document.querySelectorAll(".langues img[data-level]").forEach(img => {
-                                const wrap = document.createElement("span");
-                                wrap.className = "flag";
-                                img.parentNode.insertBefore(wrap, img);
-                                wrap.appendChild(img);
+                        <script src="assets/js/Language_level.js" defer></script>
 
-                                const badge = document.createElement("span");
-                                badge.className = "badge";
-                                badge.textContent = img.dataset.level.trim();
-                                badge.style.background = COLORS[img.dataset.level.trim()] || "#475569";
-                                wrap.appendChild(badge);
-                            });
-                        </script>
                         <div class="texte">
                             <p>Soft Skills : </p>
                             <ul class="soft-proof" id="soft-proof">
@@ -2858,80 +2820,7 @@
                                     data-pins="atlantic, paris, normandie, finlande"></li>
                             </ul>
 
-
-
-                            <script>
-                                (() => {
-                                    const root = document.getElementById('soft-proof');
-                                    if (!root) return;
-
-                                    root.querySelectorAll('li').forEach(li => {
-                                        const label = li.dataset.label || 'Soft skill';
-                                        const cases = Math.max(0, Math.min(5, parseInt(li.dataset.cases || '0', 10)));
-                                        const tip = li.dataset.tip || '';
-
-
-                                        li.classList.add('item');
-                                        if (tip) li.setAttribute('data-tip', tip);
-
-                                        li.innerHTML = `
-                                    <span class="label">${label}</span>
-                                    <div class="dots">${'<span class="dot"></span>'.repeat(5)}</div>`;
-
-
-                                        li.querySelectorAll('.dot').forEach((d, i) => {
-                                            if (i < cases) d.classList.add('filled');
-                                        });
-                                    });
-                                })();
-                            </script>
-                            <script>
-                                (() => {
-                                    const SCALE = 2.2;
-
-
-                                    const pins = [...document.querySelectorAll('svg circle[data-key]')];
-                                    pins.forEach(p => p.dataset.baseR = p.getAttribute('r') || 5);
-
-
-                                    const list = document.querySelector('.soft-proof');
-                                    if (!list || !pins.length) return;
-
-
-                                    const toKeys = s =>
-                                        (s)
-                                            .split(',')
-                                            .map(x => x.trim())
-                                            .filter(Boolean);
-
-
-                                    list.addEventListener('pointerenter', (e) => {
-                                        const item = e.target.closest('li');
-                                        if (!item || !list.contains(item)) return;
-
-
-                                        const keys = toKeys(item.dataset.pins || item.dataset.pin);
-
-                                        pins.forEach(p => {
-                                            const base = +p.dataset.baseR;
-                                            const key = (p.dataset.key);
-                                            const hit = keys.includes(key);
-                                            p.setAttribute('r', hit ? base * SCALE : base);
-
-                                        });
-                                    }, true);
-
-                                    list.addEventListener('pointerleave', (e) => {
-                                        const item = e.target.closest('li');
-                                        if (!item || !list.contains(item)) return;
-
-                                        pins.forEach(p => {
-                                            p.setAttribute('r', p.dataset.baseR);
-                                            p.classList.remove('highlight');
-                                        });
-                                    }, true);
-                                })();
-                            </script>
+                            <script src="assets/js/soft_skills.js" defer></script>
 
                         </div>
                         <div class="texte">
@@ -2991,156 +2880,26 @@
                 </div>
             </div>
         </aside>
-        <script>
-            (function () {
-                const sheet = document.querySelector('.summary');
-                if (!sheet) return;
+        <div id="lfd-chat">
+  <button class="lfd-chat-toggle" aria-expanded="false" title="Ouvrir le chat">💬</button>
 
-                const handle = sheet.querySelector('.summary__handle');
-                const content = sheet.querySelector('.summary__content');
-                const mq = window.matchMedia('(max-width:1027px)');
-                const HANDLE = 56;
+  <div class="lfd-chat-panel" hidden>
+    <div class="lfd-chat-header">
+      <span>Chat demo</span>
+      <button class="lfd-chat-close" title="Fermer">×</button>
+    </div>
+    <div class="lfd-chat-log" id="lfd-chat-log"></div>
+    <div class="lfd-chat-input">
+      <input id="lfd-chat-msg" placeholder="Écris ton message…" />
+      <button id="lfd-chat-send" type="button">Envoyer</button>
+    </div>
+  </div>
+</div>
+        </div>
 
-                let closedY = 0, startY = 0, startPos = 0, dragging = false;
-                let bound = false;
-
-                function computeClosedY() { closedY = sheet.clientHeight - HANDLE; }
-                function setOpen(open) {
-                    sheet.classList.toggle('open', open);
-                    handle?.setAttribute('aria-expanded', open);
-                    document.body.classList.toggle('modal-open', open && mq.matches);
-                    sheet.style.transform = open || !mq.matches ? 'translateY(0)' : `translateY(${closedY}px)`;
-                }
-
-
-                function bindMobile() {
-                    if (bound || !handle) return;
-                    bound = true;
-                    computeClosedY(); setOpen(false);
-                    addEventListener('resize', () => { computeClosedY(); if (!sheet.classList.contains('open')) setOpen(false); });
-
-                    handle.addEventListener('click', () => setOpen(!sheet.classList.contains('open')));
-
-                    sheet.addEventListener('touchstart', (e) => {
-                        if (e.target !== handle && content?.scrollTop > 0) return;
-                        dragging = true;
-                        startY = e.touches[0].clientY;
-                        startPos = sheet.classList.contains('open') ? 0 : closedY;
-                        sheet.style.transition = 'none';
-                    }, { passive: true });
-
-                    sheet.addEventListener('touchmove', (e) => {
-                        if (!dragging) return;
-                        const dy = e.touches[0].clientY - startY;
-                        let y = Math.min(closedY, Math.max(0, startPos + dy));
-                        sheet.style.transform = `translateY(${y}px)`;
-                        //e.preventDefault();
-                    }, { passive: false });
-
-                    sheet.addEventListener('touchend', () => {
-                        if (!dragging) return;
-                        dragging = false; sheet.style.transition = '';
-                        const m = new DOMMatrixReadOnly(getComputedStyle(sheet).transform);
-                        const y = m.m42 || 0;
-                        setOpen(y < closedY / 2);
-                    });
-                }
-
-                function unbindMobile() {
-                    bound = false;
-                    document.body.classList.remove('modal-open');
-                    sheet.classList.remove('open');
-                    sheet.style.transition = '';
-                    setOpen(true);
-                }
-
-
-                if (mq.matches) bindMobile(); else unbindMobile();
-                mq.addEventListener('change', e => e.matches ? bindMobile() : unbindMobile());
-            })();
-        </script>
-        <script>
-            window.addEventListener('load', () => {
-                if (!matchMedia('(max-width:900px)').matches) return;
-
-                const scroller = document.querySelector('.map-wrap');
-                const svg = scroller?.querySelector('svg');
-                if (!scroller || !svg) return;
-
-
-                const target =
-
-                    svg.querySelector('.Angola');
-
-                if (!target) return;
-
-
-                const tRect = target.getBoundingClientRect();
-                const sRect = scroller.getBoundingClientRect();
-
-
-                const centerX = (tRect.left + tRect.right) / 2 - sRect.left + scroller.scrollLeft;
-
-
-                const left = Math.max(0, centerX - scroller.clientWidth / 2);
-
-                scroller.scrollTo({ left, behavior: 'instant' });
-            });
-
-            // responsive sur les conteneurs recherche pour les etudes
-            document.addEventListener('DOMContentLoaded', () => {
-                const mq = window.matchMedia('(max-width: 570px)');
-                document.querySelectorAll('.js-toggle').forEach(a => {
-                    if (location.hash) a.setAttribute('href', location.hash);
-                });
-                const LABEL_RESULTT = 'Recherche associée : Baptiste Lecaudey Etudes';
-                const LABEL_STUDY = 'Recherche associée : Baptiste Lecaudey Experiences';
-
-                function setState(state) {
-
-                    document.body.classList.toggle('show-resultT', state === 'resultT');
-                    document.body.classList.toggle('show-study', state === 'study');
-                    updateLabels();
-                }
-
-                function updateLabels() {
-                    const showingStudy = document.body.classList.contains('show-study');
-                    document.querySelectorAll('.js-toggle').forEach(a => {
-                        a.textContent = showingStudy ? LABEL_STUDY : LABEL_RESULTT;
-                    });
-                }
-
-                function sync() {
-                    if (mq.matches) {
-
-                        setState('resultT');
-                    } else {
-
-                        document.body.classList.remove('show-resultT', 'show-study');
-                        updateLabels();
-                    }
-                }
-
-
-                sync();
-                mq.addEventListener('change', sync);
-
-
-                document.addEventListener('click', (e) => {
-                    const a = e.target.closest('.js-toggle');
-                    if (!a) return;
-
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    if (!mq.matches) return;
-
-                    const next = document.body.classList.contains('show-study') ? 'resultT' : 'study';
-                    setState(next);
-                });
-            });
-        </script>
-
+        <script src="assets/js/chat.js"></script>
+        <script src="assets/js/menu_deroulant.js" defer></script>
+        <script src="assets/js/responsive_recherche.js" defer></script>
     </main>
     <footer></footer>
 

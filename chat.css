@@ -1,0 +1,122 @@
+#lfd-chat {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 9999;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+/* Bouton bulle */
+#lfd-chat .lfd-chat-toggle {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #111;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .25);
+}
+
+/* Panneau (fermé par défaut) */
+#lfd-chat .lfd-chat-panel {
+    display: none;
+    position: absolute;
+    right: 0;
+    bottom: 72px;
+    width: 320px;
+    max-height: 70vh;
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    border-radius: 14px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, .18);
+    overflow: hidden;
+    flex-direction: column;
+}
+
+#lfd-chat.is-open .lfd-chat-panel {
+    display: flex;
+}
+
+#lfd-chat .lfd-chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    background: #f7f7f7;
+    border-bottom: 1px solid #ececec;
+    font-weight: 600;
+    color: #222;
+}
+
+#lfd-chat .lfd-chat-close {
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+#lfd-chat .lfd-chat-log {
+    padding: 12px;
+    overflow-y: auto;
+    flex: 1;
+    background: #fafafa;
+}
+
+#lfd-chat .lfd-chat-bubble {
+    max-width: 85%;
+    padding: 8px 10px;
+    border-radius: 10px;
+    margin: 6px 0;
+    word-wrap: break-word;
+    line-height: 1.35;
+    font-size: 14px;
+}
+
+#lfd-chat .you {
+    margin-left: auto;
+    background: #0078ff;
+    color: #fff;
+}
+
+#lfd-chat .bot {
+    margin-right: auto;
+    background: #e9e9e9;
+    color: #111;
+}
+
+#lfd-chat .lfd-chat-input {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    padding: 10px;
+    background: #fff;
+    border-top: 1px solid #ececec;
+}
+
+#lfd-chat #lfd-chat-msg {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+}
+
+#lfd-chat #lfd-chat-msg:focus {
+    border-color: #0078ff;
+}
+
+#lfd-chat #lfd-chat-send {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: none;
+    background: #0078ff;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+}
