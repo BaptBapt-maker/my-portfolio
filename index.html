@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="resume.css">
-     <link rel="stylesheet" href="chat.css" />
+    <link rel="stylesheet" href="chat.css" />
     <title>Resume - Portfolio</title>
 </head>
 
@@ -1251,7 +1251,21 @@
                 </svg>
 
                 <script src="assets/js/point_selector.js" defer></script>
+                <div id="lfd-chat">
+                    <button class="lfd-chat-toggle" aria-expanded="false" title="Ouvrir le chat">💬</button>
 
+                    <div class="lfd-chat-panel" hidden>
+                        <div class="lfd-chat-header">
+                            <span>Discutez avec moi en live</span>
+                            <button class="lfd-chat-close" title="Fermer">×</button>
+                        </div>
+                        <div class="lfd-chat-log" id="lfd-chat-log"></div>
+                        <div class="lfd-chat-input">
+                            <input id="lfd-chat-msg" placeholder="Écrivez votre message…" />
+                            <button id="lfd-chat-send" type="button">Envoyer</button>
+                        </div>
+                    </div>
+                </div>
                 <div class="contact">
                     <div class="logo">
 
@@ -2849,6 +2863,7 @@
                                     les équipes au quotidien.</p>
                             </div>
                         </div>
+
                         <div class="contact">
                             <div class="logo">
 
@@ -2880,22 +2895,7 @@
                 </div>
             </div>
         </aside>
-        <div id="lfd-chat">
-  <button class="lfd-chat-toggle" aria-expanded="false" title="Ouvrir le chat">💬</button>
 
-  <div class="lfd-chat-panel" hidden>
-    <div class="lfd-chat-header">
-      <span>Chat demo</span>
-      <button class="lfd-chat-close" title="Fermer">×</button>
-    </div>
-    <div class="lfd-chat-log" id="lfd-chat-log"></div>
-    <div class="lfd-chat-input">
-      <input id="lfd-chat-msg" placeholder="Écris ton message…" />
-      <button id="lfd-chat-send" type="button">Envoyer</button>
-    </div>
-  </div>
-</div>
-        </div>
 
         <script src="assets/js/chat.js"></script>
         <script src="assets/js/menu_deroulant.js" defer></script>

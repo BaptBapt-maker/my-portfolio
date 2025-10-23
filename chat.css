@@ -1,6 +1,6 @@
 #lfd-chat {
     position: fixed;
-    right: 16px;
+    left: 16px;            
     bottom: 16px;
     z-index: 9999;
     font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
@@ -18,13 +18,14 @@
     cursor: pointer;
     border: none;
     box-shadow: 0 6px 18px rgba(0, 0, 0, .25);
+    margin-bottom: 25px;
 }
 
 /* Panneau (fermé par défaut) */
 #lfd-chat .lfd-chat-panel {
     display: none;
     position: absolute;
-    right: 0;
+    left: 0;                /* ⬅️ avant : right: 0 */
     bottom: 72px;
     width: 320px;
     max-height: 70vh;
@@ -40,6 +41,7 @@
     display: flex;
 }
 
+/* === reste inchangé === */
 #lfd-chat .lfd-chat-header {
     display: flex;
     justify-content: space-between;
