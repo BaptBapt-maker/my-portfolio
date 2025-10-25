@@ -122,3 +122,48 @@
     cursor: pointer;
     font-weight: 600;
 }
+
+.lfd-agent-status {
+  font-size: 13px;
+  color: #666;
+  margin: 4px 0 6px;
+  transition: opacity .3s ease;
+}
+
+#lfd-chat .lfd-chat-toggle {
+  position: relative;
+}
+
+#lfd-chat .lfd-chat-toggle.lfd-has-new::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ff3b30; /* rouge notif */
+  box-shadow: 0 0 4px rgba(0,0,0,0.3);
+  animation: blink 1s infinite alternate;
+}
+
+@keyframes blink {
+  from { opacity: 1; }
+  to { opacity: 0.4; }
+}
+
+@media (max-width: 1027px) {
+  #lfd-chat {
+    left: auto;
+    right: 16px;
+    bottom: auto;
+    top: 16px;
+  }
+
+  #lfd-chat .lfd-chat-panel {
+    left: auto;
+    right: 0;
+    bottom: auto;
+    top: 72px; /* ouverture vers le bas */
+  }
+}

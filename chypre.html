@@ -82,6 +82,22 @@
 
 
     </div>
+    <div id="lfd-chat">
+      <button class="lfd-chat-toggle" aria-expanded="false" title="Ouvrir le chat">💬</button>
+
+      <div class="lfd-chat-panel" hidden>
+        <div class="lfd-chat-header">
+          <span>Discutez avec moi en live</span>
+          <button class="lfd-chat-close" title="Fermer">×</button>
+        </div>
+        <div class="lfd-chat-log" id="lfd-chat-log"></div>
+        <div id="lfd-agent-status" class="lfd-agent-status"></div>
+        <div class="lfd-chat-input">
+          <input id="lfd-chat-msg" placeholder="Écrivez votre message…" />
+          <button id="lfd-chat-send" type="button">Envoyer</button>
+        </div>
+      </div>
+    </div>
   </section>
   <script>
     document.addEventListener("DOMContentLoaded", () => {

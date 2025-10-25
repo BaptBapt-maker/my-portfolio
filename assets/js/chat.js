@@ -1,6 +1,6 @@
-const API_BASE = "https://api.lefildigital.com";
+const API_BASE = "https://api.lefildigital.com/api/chat";
 
-/* ---------- helpers ---------- */
+/* ---------- UI helpers ---------- */
 function addBubble(text, who = "bot") {
   const log = document.getElementById("lfd-chat-log");
   if (!log) return;
@@ -11,53 +11,78 @@ function addBubble(text, who = "bot") {
   log.scrollTop = log.scrollHeight;
 }
 
-// very small UUID + cookie store for an anonymous visitor id (optional but useful)
-function vidGet() {
-  const m = document.cookie.match(/(?:^|;\s*)lfd_vid=([^;]+)/);
-  return m ? decodeURIComponent(m[1]) : null;
-}
-function vidSet(val) {
-  const d = new Date();
-  d.setFullYear(d.getFullYear() + 1);
-  document.cookie = `lfd_vid=${encodeURIComponent(val)}; path=/; expires=${d.toUTCString()}`;
-}
-function uuid() {
-  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => {
-    const r = (crypto.getRandomValues(new Uint8Array(1))[0] & 15) >>> 0;
-    const v = c === "x" ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
+/* ---------- session ---------- */
+async function getSessionId() {
+  let sid = localStorage.getItem("lfd_session_id");
+  if (sid) return sid;
+
+  const res = await fetch(`${API_BASE}/open/`, { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
+  const data = await res.json();
+  if (!res.ok || !data.session_id) throw new Error("open failed");
+  sid = data.session_id;
+  localStorage.setItem("lfd_session_id", sid);
+  return sid;
 }
 
-/* ---------- send message to backend ---------- */
+/* ---------- poll back messages ---------- */
+let pollTimer = null;
+let hasNewMessage = false;
+
+async function startPolling() {
+  if (pollTimer) return;
+  const sid = await getSessionId();
+
+  const tick = async () => {
+    try {
+      const r = await fetch(`${API_BASE}/pull/?session_id=${encodeURIComponent(sid)}`, { method: "GET" });
+      if (!r.ok) return;
+      const data = await r.json();
+      const messages = data.messages || [];
+      if (!messages.length) return;
+
+      messages.forEach(m => {
+        if (m.dir === "agent") {
+          addBubble(m.text, "bot");
+          // si le chat est fermé → allume le badge
+          const root = document.getElementById("lfd-chat");
+          const toggle = root?.querySelector(".lfd-chat-toggle");
+          const isOpen = root?.classList.contains("is-open");
+          if (!isOpen) {
+            hasNewMessage = true;
+            toggle?.classList.add("lfd-has-new");
+          }
+        }
+      });
+    } catch (_) {}
+  };
+
+  await tick(); // premier tir
+  pollTimer = setInterval(tick, 2000);
+}
+
+/* ---------- send message ---------- */
 async function sendMessage() {
   const input = document.getElementById("lfd-chat-msg");
   const btn   = document.getElementById("lfd-chat-send");
   const message = (input?.value || "").trim();
   if (!message) return;
 
-  // ensure visitor id
-  let vid = vidGet();
-  if (!vid) { vid = uuid(); vidSet(vid); }
-
   addBubble(message, "you");
   input.value = "";
   btn?.setAttribute("disabled", "true");
 
   try {
-    const res = await fetch(`${API_BASE}/api/chat/send`, {
+    const session_id = await getSessionId();
+    const res = await fetch(`${API_BASE}/send/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: message, visitor_id: vid })
+      body: JSON.stringify({ session_id, text: message })
     });
-
     if (!res.ok) {
       addBubble("❌ Envoi échoué. Réessaie dans un instant.", "bot");
-      console.warn("[chat] send failed", res.status, await res.text());
     }
   } catch (e) {
-    addBubble("❌ Erreur réseau : " + e.message, "bot");
-    console.error("[chat] network error", e);
+    addBubble("🌐 Erreur réseau. Réessaie plus tard.", "bot");
   } finally {
     btn?.removeAttribute("disabled");
   }
@@ -73,10 +98,13 @@ function initChat() {
   const send   = document.getElementById("lfd-chat-send");
   const input  = document.getElementById("lfd-chat-msg");
 
-  toggle?.addEventListener("click", () => {
+  toggle?.addEventListener("click", async () => {
     const open = root.classList.toggle("is-open");
     toggle.setAttribute("aria-expanded", String(open));
-    if (open) input?.focus();
+    if (open) {
+      input?.focus();
+      try { await startPolling(); } catch {}
+    }
   });
   close?.addEventListener("click", () => {
     root.classList.remove("is-open");
@@ -86,8 +114,43 @@ function initChat() {
   send?.addEventListener("click", sendMessage);
   input?.addEventListener("keydown", (e) => { if (e.key === "Enter") sendMessage(); });
 
-  // optional ping (ton endpoint existe)
-  fetch(`${API_BASE}/chat/ping/`).catch(()=>{});
+  fetch(`${API_BASE}/ping/`).catch(()=>{});
+
+  toggle?.addEventListener("click", async () => {
+  const open = root.classList.toggle("is-open");
+  toggle.setAttribute("aria-expanded", String(open));
+  if (open) {
+    input?.focus();
+    // efface la pastille
+    hasNewMessage = false;
+    toggle?.classList.remove("lfd-has-new");
+    try { await startPolling(); } catch {}
+  }
+});
 }
 
 document.addEventListener("DOMContentLoaded", initChat);
+
+async function updateAgentStatus() {
+  try {
+    const res = await fetch(`${API_BASE}/agent/status/`);
+    if (!res.ok) return;
+    const data = await res.json();
+    const el = document.getElementById("lfd-agent-status");
+    if (!el) return;
+
+    if (data.typing) {
+      el.textContent = "✍️ Baptiste écrit...";
+    } else if (data.online) {
+      el.textContent = "🟢 Baptiste est en ligne";
+    } else {
+      el.textContent = "⚪ Baptiste est hors ligne";
+    }
+  } catch (e) {
+    console.warn("[chat] agent status error", e);
+  }
+}
+
+
+setInterval(updateAgentStatus, 5000);
+updateAgentStatus();
