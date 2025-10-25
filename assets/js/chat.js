@@ -16,7 +16,11 @@ async function getSessionId() {
   let sid = localStorage.getItem("lfd_session_id");
   if (sid) return sid;
 
-  const res = await fetch(`${API_BASE}/open/`, { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
+  const res = await fetch(`${API_BASE}/open/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: "{}"
+  });
   const data = await res.json();
   if (!res.ok || !data.session_id) throw new Error("open failed");
   sid = data.session_id;
@@ -43,7 +47,6 @@ async function startPolling() {
       messages.forEach(m => {
         if (m.dir === "agent") {
           addBubble(m.text, "bot");
-          // si le chat est fermé → allume le badge
           const root = document.getElementById("lfd-chat");
           const toggle = root?.querySelector(".lfd-chat-toggle");
           const isOpen = root?.classList.contains("is-open");
@@ -78,9 +81,7 @@ async function sendMessage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ session_id, text: message })
     });
-    if (!res.ok) {
-      addBubble("❌ Envoi échoué. Réessaie dans un instant.", "bot");
-    }
+    if (!res.ok) addBubble("❌ Envoi échoué. Réessaie dans un instant.", "bot");
   } catch (e) {
     addBubble("🌐 Erreur réseau. Réessaie plus tard.", "bot");
   } finally {
@@ -98,14 +99,19 @@ function initChat() {
   const send   = document.getElementById("lfd-chat-send");
   const input  = document.getElementById("lfd-chat-msg");
 
+  // ✅ Un SEUL handler pour le toggle
   toggle?.addEventListener("click", async () => {
     const open = root.classList.toggle("is-open");
     toggle.setAttribute("aria-expanded", String(open));
     if (open) {
       input?.focus();
+      // efface la pastille
+      hasNewMessage = false;
+      toggle?.classList.remove("lfd-has-new");
       try { await startPolling(); } catch {}
     }
   });
+
   close?.addEventListener("click", () => {
     root.classList.remove("is-open");
     toggle?.setAttribute("aria-expanded", "false");
@@ -115,22 +121,11 @@ function initChat() {
   input?.addEventListener("keydown", (e) => { if (e.key === "Enter") sendMessage(); });
 
   fetch(`${API_BASE}/ping/`).catch(()=>{});
-
-  toggle?.addEventListener("click", async () => {
-  const open = root.classList.toggle("is-open");
-  toggle.setAttribute("aria-expanded", String(open));
-  if (open) {
-    input?.focus();
-    // efface la pastille
-    hasNewMessage = false;
-    toggle?.classList.remove("lfd-has-new");
-    try { await startPolling(); } catch {}
-  }
-});
 }
 
 document.addEventListener("DOMContentLoaded", initChat);
 
+/* ---------- Agent status ---------- */
 async function updateAgentStatus() {
   try {
     const res = await fetch(`${API_BASE}/agent/status/`);
@@ -150,7 +145,6 @@ async function updateAgentStatus() {
     console.warn("[chat] agent status error", e);
   }
 }
-
 
 setInterval(updateAgentStatus, 5000);
 updateAgentStatus();
