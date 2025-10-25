@@ -154,8 +154,7 @@
 
 @media (max-width: 1027px) {
   #lfd-chat {
-    left: auto;
-    right: 16px;
+    margin-left: 800px;
     bottom: auto;
     top: 16px;
   }
