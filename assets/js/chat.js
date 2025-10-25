@@ -1,8 +1,9 @@
 const API_BASE = "https://api.lefildigital.com";
-const PHONE_E164 = "447558895686"; // <-- ton numéro WhatsApp, E.164 SANS '+'
 
-function addBubble(text, who="bot"){
+/* ---------- helpers ---------- */
+function addBubble(text, who = "bot") {
   const log = document.getElementById("lfd-chat-log");
+  if (!log) return;
   const p = document.createElement("p");
   p.className = `lfd-chat-bubble ${who}`;
   p.textContent = text;
@@ -10,83 +11,83 @@ function addBubble(text, who="bot"){
   log.scrollTop = log.scrollHeight;
 }
 
-// --- ENVOI vers WhatsApp via /send_test/
-async function sendMessage(){
+// very small UUID + cookie store for an anonymous visitor id (optional but useful)
+function vidGet() {
+  const m = document.cookie.match(/(?:^|;\s*)lfd_vid=([^;]+)/);
+  return m ? decodeURIComponent(m[1]) : null;
+}
+function vidSet(val) {
+  const d = new Date();
+  d.setFullYear(d.getFullYear() + 1);
+  document.cookie = `lfd_vid=${encodeURIComponent(val)}; path=/; expires=${d.toUTCString()}`;
+}
+function uuid() {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => {
+    const r = (crypto.getRandomValues(new Uint8Array(1))[0] & 15) >>> 0;
+    const v = c === "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
+/* ---------- send message to backend ---------- */
+async function sendMessage() {
   const input = document.getElementById("lfd-chat-msg");
-  const message = input.value.trim();
-  if(!message) return;
+  const btn   = document.getElementById("lfd-chat-send");
+  const message = (input?.value || "").trim();
+  if (!message) return;
+
+  // ensure visitor id
+  let vid = vidGet();
+  if (!vid) { vid = uuid(); vidSet(vid); }
 
   addBubble(message, "you");
   input.value = "";
+  btn?.setAttribute("disabled", "true");
 
-  try{
-    const res = await fetch(`${API_BASE}/send_test/`, {
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify({ to: PHONE_E164, msg: message })
+  try {
+    const res = await fetch(`${API_BASE}/api/chat/send`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: message, visitor_id: vid })
     });
-    const txt = await res.text();
-    let data; try { data = JSON.parse(txt); } catch { data = { raw: txt }; }
 
-    if(!res.ok || (data && data.ok === false)){
-      addBubble("❌ Envoi échoué (API Meta)", "bot");
-      console.warn("send_test error:", data);
+    if (!res.ok) {
+      addBubble("❌ Envoi échoué. Réessaie dans un instant.", "bot");
+      console.warn("[chat] send failed", res.status, await res.text());
     }
-    // sinon OK → rien à faire, on affiche déjà la bulle "you"
-  }catch(e){
-    addBubble("Erreur réseau : " + e.message, "bot");
+  } catch (e) {
+    addBubble("❌ Erreur réseau : " + e.message, "bot");
+    console.error("[chat] network error", e);
+  } finally {
+    btn?.removeAttribute("disabled");
   }
 }
 
-// --- RECEPTION : poll /chat/pull/?phone=...
-let pollTimer = null;
-async function pollIncoming(){
-  try{
-    const res = await fetch(`${API_BASE}/chat/pull/?phone=${encodeURIComponent(PHONE_E164)}`);
-    if(!res.ok) return;
-    const data = await res.json(); // { messages: [{dir:'in'|'out', text, ts}] }
-    const msgs = Array.isArray(data.messages) ? data.messages : [];
-    for(const m of msgs){
-      if(m.dir === "in") addBubble(m.text, "bot");  // on n’affiche que les entrants
-      // (les 'out' sont déjà affichés côté front quand on envoie)
-    }
-  }catch(e){
-    // silencieux
-  }
-}
-
-function startPolling(){
-  if(pollTimer) clearInterval(pollTimer);
-  pollTimer = setInterval(pollIncoming, 2500);
-  pollIncoming(); // premier tir immédiat
-}
-
-// --- INIT UI
-function initChat(){
-  console.log("[chat] init");
+/* ---------- UI init ---------- */
+function initChat() {
   const root   = document.getElementById("lfd-chat");
+  if (!root) return;
+
   const toggle = root.querySelector(".lfd-chat-toggle");
   const close  = root.querySelector(".lfd-chat-close");
   const send   = document.getElementById("lfd-chat-send");
   const input  = document.getElementById("lfd-chat-msg");
 
-  toggle.addEventListener("click", () => {
+  toggle?.addEventListener("click", () => {
     const open = root.classList.toggle("is-open");
     toggle.setAttribute("aria-expanded", String(open));
-    if(open){ input.focus(); startPolling(); }
+    if (open) input?.focus();
   });
-  close.addEventListener("click", () => {
+  close?.addEventListener("click", () => {
     root.classList.remove("is-open");
-    toggle.setAttribute("aria-expanded","false");
+    toggle?.setAttribute("aria-expanded", "false");
   });
 
-  send.addEventListener("click", sendMessage);
-  input.addEventListener("keydown", e => { if(e.key === "Enter") sendMessage(); });
+  send?.addEventListener("click", sendMessage);
+  input?.addEventListener("keydown", (e) => { if (e.key === "Enter") sendMessage(); });
 
-  // ping silencieux (debug)
-  fetch(`${API_BASE}/chat/ping/`)
-    .then(()=>console.log("[chat] ping ok"))
-    .catch(err=>console.warn("[chat] ping fail", err));
+  // optional ping (ton endpoint existe)
+  fetch(`${API_BASE}/chat/ping/`).catch(()=>{});
 }
 
 document.addEventListener("DOMContentLoaded", initChat);
